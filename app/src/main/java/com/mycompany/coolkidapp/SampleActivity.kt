@@ -6,15 +6,15 @@ import androidx.databinding.DataBindingUtil
 import com.google.android.youtube.player.YouTubeBaseActivity
 import com.google.android.youtube.player.YouTubeInitializationResult
 import com.google.android.youtube.player.YouTubePlayer
-import com.mycompany.coolkidapp.databinding.ActivityMainBinding
+import com.mycompany.coolkidapp.databinding.ActivitySampleBinding
 
-class MainActivity : YouTubeBaseActivity(), YouTubePlayer.OnInitializedListener {
+class SampleActivity : YouTubeBaseActivity(), YouTubePlayer.OnInitializedListener {
 
-    private lateinit var binding: ActivityMainBinding
+    private lateinit var binding: ActivitySampleBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_sample)
         initView()
     }
 
