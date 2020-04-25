@@ -1,5 +1,6 @@
 package com.mycompany.coolkidapp
 
+import android.app.FragmentManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.databinding.DataBindingUtil
@@ -13,10 +14,13 @@ class PlaylistActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityPlaylistBinding
     private var urlList = ArrayList<String>()
+    private lateinit var videoFragment: YouTubePlayerFragment
+    private lateinit var fm: FragmentManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_playlist)
+        fm = fragmentManager
         initData()
         initRecyclerView()
         initVideoFragment()
@@ -29,7 +33,7 @@ class PlaylistActivity : AppCompatActivity() {
     }
 
     private fun initVideoFragment() {
-        val videoFragment = this.supportFragmentManager.findFragmentByTag("tag") as YouTubePlayerFragment
+        videoFragment = YouTubePlayerFragment.newInstance()
         videoFragment?.initialize(Config.YOUTUBE_API_KEY, object : YouTubePlayer.OnInitializedListener {
             override fun onInitializationSuccess(provider: YouTubePlayer.Provider?,
                 player: YouTubePlayer?, wasRestored: Boolean) {
@@ -45,6 +49,7 @@ class PlaylistActivity : AppCompatActivity() {
             }
 
         })
+        fm.beginTransaction().add(R.id.video_frame, videoFragment).commit()
     }
 
     private fun initRecyclerView() {

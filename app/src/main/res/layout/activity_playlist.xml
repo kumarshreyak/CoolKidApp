@@ -6,10 +6,8 @@
         android:layout_height="match_parent"
         tools:context=".PlaylistActivity">
 
-        <fragment
-            android:id="@+id/youtube_fragment"
-            android:tag="youtubeFragment"
-            android:name="com.google.android.youtube.player.YouTubePlayerFragment"
+        <FrameLayout
+            android:id="@+id/video_frame"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             android:layout_width="match_parent"
@@ -17,7 +15,7 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_video_list"
-            app:layout_constraintTop_toBottomOf="@id/youtube_fragment"
+            app:layout_constraintTop_toBottomOf="@id/video_frame"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             android:layout_width="match_parent"
