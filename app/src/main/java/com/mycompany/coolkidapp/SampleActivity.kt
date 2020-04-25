@@ -3,9 +3,7 @@ package com.mycompany.coolkidapp
 import android.os.Bundle
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
-import com.google.android.youtube.player.YouTubeBaseActivity
-import com.google.android.youtube.player.YouTubeInitializationResult
-import com.google.android.youtube.player.YouTubePlayer
+import com.google.android.youtube.player.*
 import com.mycompany.coolkidapp.databinding.ActivitySampleBinding
 
 class SampleActivity : YouTubeBaseActivity(), YouTubePlayer.OnInitializedListener {
