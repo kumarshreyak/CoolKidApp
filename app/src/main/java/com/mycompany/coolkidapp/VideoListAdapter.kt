@@ -11,7 +11,8 @@ import com.google.android.youtube.player.YouTubeThumbnailView
 import com.mycompany.coolkidapp.databinding.VideoListItemBinding
 
 class VideoListAdapter(private var videoUrlList: ArrayList<String>,
-                       private var context: Context) : RecyclerView.Adapter<VideoListAdapter.VideoItemHolder>() {
+                       private var context: Context,
+                       private var itemClickInterface: ItemClickInterface) : RecyclerView.Adapter<VideoListAdapter.VideoItemHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VideoItemHolder {
         val binding = DataBindingUtil.inflate<VideoListItemBinding>(LayoutInflater.from(context),
@@ -45,12 +46,17 @@ class VideoListAdapter(private var videoUrlList: ArrayList<String>,
                 p1: YouTubeInitializationResult?
             ) { }
         })
+        holder.binding.rootLayout.setOnClickListener { itemClickInterface.onItemClick(videoUrlList[position]) }
     }
 
     class VideoItemHolder(var binding: VideoListItemBinding) : RecyclerView.ViewHolder(binding.root) {
         fun populateView(videoName: String) {
             binding.tvTitle.text = videoName
         }
+    }
+
+    interface ItemClickInterface {
+        fun onItemClick(url: String)
     }
 
 }
