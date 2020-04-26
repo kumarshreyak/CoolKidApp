@@ -58,7 +58,7 @@ class VideoListAdapter(private var videoUrlList: ArrayList<VideoItem>, private v
             }
         })
 
-        holder.binding.rootLayout.setOnClickListener { itemClickInterface.onItemClick(videoUrlList[position].url) }
+        holder.binding.rootLayout.setOnClickListener { itemClickInterface.onItemClick(position, videoUrlList[position].url) }
     }
 
     class VideoItemHolder(var binding: VideoListItemBinding) : RecyclerView.ViewHolder(binding.root) {
@@ -68,7 +68,7 @@ class VideoListAdapter(private var videoUrlList: ArrayList<VideoItem>, private v
     }
 
     interface ItemClickInterface {
-        fun onItemClick(url: String)
+        fun onItemClick(pos: Int, url: String)
     }
 
 }

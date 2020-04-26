@@ -1,9 +1,12 @@
 package com.mycompany.coolkidapp.ui.videoplayer
 
 import android.app.FragmentManager
+import android.content.res.Configuration
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
+import android.os.PersistableBundle
+import android.util.Log
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import com.google.android.youtube.player.YouTubeInitializationResult
@@ -22,8 +25,8 @@ class PlaylistActivity : AppCompatActivity(),
     private var videoList = ArrayList<VideoItem>()
     private lateinit var videoFragment: YouTubePlayerFragment
     private lateinit var fm: FragmentManager
-    private var isInitializing = false
     private var mPlayer: YouTubePlayer? = null
+    private var selectedPos = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,13 +35,13 @@ class PlaylistActivity : AppCompatActivity(),
         )
         fm = fragmentManager
         initData()
+        initViews(savedInstanceState)
 
-        initViews()
     }
 
-    private fun initViews() {
+    private fun initViews(savedInstanceState: Bundle?) {
         initRecyclerView()
-        initVideoFragment()
+        initVideoFragment(savedInstanceState)
         binding.btnFullscreen.setOnClickListener {
             mPlayer?.setFullscreen(true)
         }
@@ -56,14 +59,23 @@ class PlaylistActivity : AppCompatActivity(),
         videoList.add(VideoItem("q6uuw0wwCgU", "Naruto AMV - Superhero"))
     }
 
-    private fun initVideoFragment() {
+    private fun initVideoFragment(savedInstanceState: Bundle?) {
         videoFragment = YouTubePlayerFragment.newInstance()
         videoFragment?.initialize(Config.YOUTUBE_API_KEY, object : YouTubePlayer.OnInitializedListener {
             override fun onInitializationSuccess(provider: YouTubePlayer.Provider?,
                                                  player: YouTubePlayer?, wasRestored: Boolean) {
                 if (!wasRestored) {
-                    player?.cueVideo(videoList[0].url) // Plays https://www.youtube.com/watch?v=q6uuw0wwCgU
                     mPlayer = player
+                    if(savedInstanceState != null) {
+                        selectedPos = savedInstanceState.getInt(Config.VIDEO_NUM)
+                        mPlayer?.cueVideo(videoList[selectedPos].url,
+                            savedInstanceState.getString(Config.VIDEO_PLAYBACK_TIME)?.toInt()!!)
+                        if(resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE)
+                            mPlayer?.setFullscreen(true)
+                    } else {
+                        selectedPos = 0
+                        mPlayer?.cueVideo(videoList[0].url)
+                    }
                 }
             }
             override fun onInitializationFailure(
@@ -73,7 +85,6 @@ class PlaylistActivity : AppCompatActivity(),
                 Toast.makeText(this@PlaylistActivity, result.toString(), Toast.LENGTH_SHORT).show()
             }
         })
-
         fm.beginTransaction().add(R.id.video_frame, videoFragment).commit()
     }
 
@@ -82,7 +93,7 @@ class PlaylistActivity : AppCompatActivity(),
             VideoListAdapter(videoList, this, this)
     }
 
-    override fun onItemClick(url: String) {
+    override fun onItemClick(pos: Int, url: String) {
         videoFragment = YouTubePlayerFragment.newInstance()
         videoFragment?.initialize(Config.YOUTUBE_API_KEY, object : YouTubePlayer.OnInitializedListener {
             override fun onInitializationSuccess(provider: YouTubePlayer.Provider?,
@@ -90,6 +101,7 @@ class PlaylistActivity : AppCompatActivity(),
                 if (!wasRestored) {
                     player?.cueVideo(url) // Plays https://www.youtube.com/watch?v=q6uuw0wwCgU
                     mPlayer = player
+                    selectedPos = pos
                 }
             }
             override fun onInitializationFailure(
@@ -100,5 +112,13 @@ class PlaylistActivity : AppCompatActivity(),
             }
         })
         fm.beginTransaction().replace(R.id.video_frame, videoFragment).commitNow()
+    }
+
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        // Save player state across config change
+        outState.putString(Config.VIDEO_PLAYBACK_TIME, mPlayer?.currentTimeMillis.toString())
+        outState.putInt(Config.VIDEO_NUM, selectedPos)
+        super.onSaveInstanceState(outState)
     }
 }
