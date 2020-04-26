@@ -5,13 +5,12 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".HomeActivity">
+        tools:context=".ui.home.HomeActivity">
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/cool_btn"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginStart="16dp"
             style="@style/Widget.MaterialComponents.Button.OutlinedButton"
             android:text="@string/start_sample"
             android:layout_width="wrap_content"

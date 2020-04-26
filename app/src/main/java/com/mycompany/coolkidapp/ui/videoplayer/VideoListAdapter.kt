@@ -1,6 +1,7 @@
-package com.mycompany.coolkidapp
+package com.mycompany.coolkidapp.ui.videoplayer
 
 import android.content.Context
+import android.os.Handler
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
@@ -8,11 +9,16 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.youtube.player.YouTubeInitializationResult
 import com.google.android.youtube.player.YouTubeThumbnailLoader
 import com.google.android.youtube.player.YouTubeThumbnailView
+import com.mycompany.coolkidapp.Config
+import com.mycompany.coolkidapp.R
 import com.mycompany.coolkidapp.databinding.VideoListItemBinding
+import com.mycompany.coolkidapp.model.VideoItem
 
-class VideoListAdapter(private var videoUrlList: ArrayList<String>,
-                       private var context: Context,
-                       private var itemClickInterface: ItemClickInterface) : RecyclerView.Adapter<VideoListAdapter.VideoItemHolder>() {
+class VideoListAdapter(private var videoUrlList: ArrayList<VideoItem>, private var context: Context,
+                       private var itemClickInterface: ItemClickInterface
+) : RecyclerView.Adapter<VideoListAdapter.VideoItemHolder>() {
+
+    private var numLoaded = 0
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VideoItemHolder {
         val binding = DataBindingUtil.inflate<VideoListItemBinding>(LayoutInflater.from(context),
@@ -25,10 +31,14 @@ class VideoListAdapter(private var videoUrlList: ArrayList<String>,
     }
 
     override fun onBindViewHolder(holder: VideoItemHolder, position: Int) {
-        holder.populateView("Video $position")
+        holder.populateView(videoUrlList[position].title)
+        if(numLoaded < itemCount)
+            numLoaded ++;
+        else
+            return
         holder.binding.ytThumbnail.initialize(Config.YOUTUBE_API_KEY, object : YouTubeThumbnailView.OnInitializedListener {
             override fun onInitializationSuccess(thumbView: YouTubeThumbnailView?, loader: YouTubeThumbnailLoader?) {
-                loader?.setVideo(videoUrlList[position])
+                loader?.setVideo(videoUrlList[position].url)
                 loader?.setOnThumbnailLoadedListener(object : YouTubeThumbnailLoader.OnThumbnailLoadedListener {
                     override fun onThumbnailLoaded(p0: YouTubeThumbnailView?, p1: String?) {
                         loader.release()
@@ -44,9 +54,11 @@ class VideoListAdapter(private var videoUrlList: ArrayList<String>,
             override fun onInitializationFailure(
                 p0: YouTubeThumbnailView?,
                 p1: YouTubeInitializationResult?
-            ) { }
+            ) {
+            }
         })
-        holder.binding.rootLayout.setOnClickListener { itemClickInterface.onItemClick(videoUrlList[position]) }
+
+        holder.binding.rootLayout.setOnClickListener { itemClickInterface.onItemClick(videoUrlList[position].url) }
     }
 
     class VideoItemHolder(var binding: VideoListItemBinding) : RecyclerView.ViewHolder(binding.root) {
