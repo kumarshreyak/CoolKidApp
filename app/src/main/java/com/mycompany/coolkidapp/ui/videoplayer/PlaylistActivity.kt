@@ -4,6 +4,7 @@ import android.app.FragmentManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import com.google.android.youtube.player.YouTubeInitializationResult
 import com.google.android.youtube.player.YouTubePlayer
@@ -22,6 +23,7 @@ class PlaylistActivity : AppCompatActivity(),
     private lateinit var videoFragment: YouTubePlayerFragment
     private lateinit var fm: FragmentManager
     private var isInitializing = false
+    private var mPlayer: YouTubePlayer? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,8 +32,16 @@ class PlaylistActivity : AppCompatActivity(),
         )
         fm = fragmentManager
         initData()
+
+        initViews()
+    }
+
+    private fun initViews() {
         initRecyclerView()
         initVideoFragment()
+        binding.btnFullscreen.setOnClickListener {
+            mPlayer?.setFullscreen(true)
+        }
     }
 
     private fun initData() {
@@ -53,12 +63,14 @@ class PlaylistActivity : AppCompatActivity(),
                                                  player: YouTubePlayer?, wasRestored: Boolean) {
                 if (!wasRestored) {
                     player?.cueVideo(videoList[0].url) // Plays https://www.youtube.com/watch?v=q6uuw0wwCgU
+                    mPlayer = player
                 }
             }
             override fun onInitializationFailure(
                 provider: YouTubePlayer.Provider?,
                 result: YouTubeInitializationResult?) {
-
+                mPlayer = null
+                Toast.makeText(this@PlaylistActivity, result.toString(), Toast.LENGTH_SHORT).show()
             }
         })
 
@@ -77,12 +89,14 @@ class PlaylistActivity : AppCompatActivity(),
                                                  player: YouTubePlayer?, wasRestored: Boolean) {
                 if (!wasRestored) {
                     player?.cueVideo(url) // Plays https://www.youtube.com/watch?v=q6uuw0wwCgU
+                    mPlayer = player
                 }
             }
             override fun onInitializationFailure(
                 provider: YouTubePlayer.Provider?,
                 result: YouTubeInitializationResult?) {
-
+                mPlayer = null
+                Toast.makeText(this@PlaylistActivity, result.toString(), Toast.LENGTH_SHORT).show()
             }
         })
         fm.beginTransaction().replace(R.id.video_frame, videoFragment).commitNow()

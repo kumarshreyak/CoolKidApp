@@ -25,6 +25,8 @@
             app:layout_constraintBottom_toBottomOf="parent"
             android:layout_margin="16dp"
             android:text="This video's title"
+            android:ellipsize="end"
+            android:maxLines="2"
             android:gravity="center"
             android:layout_width="0dp"
             android:layout_height="wrap_content"/>
