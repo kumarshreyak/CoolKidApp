@@ -1,6 +1,7 @@
 package com.mycompany.coolkidapp.ui.videoplayer
 
 import android.app.FragmentManager
+import android.content.pm.ActivityInfo
 import android.content.res.Configuration
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -19,7 +20,8 @@ import com.mycompany.coolkidapp.model.VideoItem
 import io.reactivex.Observable
 
 class PlaylistActivity : AppCompatActivity(),
-    VideoListAdapter.ItemClickInterface {
+    VideoListAdapter.ItemClickInterface, YouTubePlayer.OnFullscreenListener,
+    YouTubePlayer.PlayerStateChangeListener {
 
     private lateinit var binding: ActivityPlaylistBinding
     private var videoList = ArrayList<VideoItem>()
@@ -27,6 +29,7 @@ class PlaylistActivity : AppCompatActivity(),
     private lateinit var fm: FragmentManager
     private var mPlayer: YouTubePlayer? = null
     private var selectedPos = 0
+    private var isFullscreen = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,11 +43,10 @@ class PlaylistActivity : AppCompatActivity(),
     }
 
     private fun initViews(savedInstanceState: Bundle?) {
-        initRecyclerView()
+        if(resources.configuration.orientation != Configuration.ORIENTATION_LANDSCAPE)
+            initRecyclerView()
         initVideoFragment(savedInstanceState)
-        binding.btnFullscreen.setOnClickListener {
-            mPlayer?.setFullscreen(true)
-        }
+        binding.btnFullscreen.setOnClickListener { mPlayer?.setFullscreen(true) }
     }
 
     private fun initData() {
@@ -66,6 +68,8 @@ class PlaylistActivity : AppCompatActivity(),
                                                  player: YouTubePlayer?, wasRestored: Boolean) {
                 if (!wasRestored) {
                     mPlayer = player
+                    mPlayer?.setOnFullscreenListener(this@PlaylistActivity)
+                    mPlayer?.setPlayerStateChangeListener(this@PlaylistActivity)
                     if(savedInstanceState != null) {
                         selectedPos = savedInstanceState.getInt(Config.VIDEO_NUM)
                         mPlayer?.cueVideo(videoList[selectedPos].url,
@@ -101,6 +105,8 @@ class PlaylistActivity : AppCompatActivity(),
                 if (!wasRestored) {
                     player?.cueVideo(url) // Plays https://www.youtube.com/watch?v=q6uuw0wwCgU
                     mPlayer = player
+                    mPlayer?.setOnFullscreenListener(this@PlaylistActivity)
+                    mPlayer?.setPlayerStateChangeListener(this@PlaylistActivity)
                     selectedPos = pos
                 }
             }
@@ -114,11 +120,56 @@ class PlaylistActivity : AppCompatActivity(),
         fm.beginTransaction().replace(R.id.video_frame, videoFragment).commitNow()
     }
 
+    // Auto play logic
+    override fun onVideoEnded() {
+        if(mPlayer != null) {
+            if(selectedPos < videoList.size - 1) {
+                selectedPos ++
+                mPlayer?.cueVideo(videoList[selectedPos].url)
+            } else {
+                if(selectedPos == videoList.size - 1) {
+                    // Load new playlist
+                }
+            }
+        }
+    }
+
 
     override fun onSaveInstanceState(outState: Bundle) {
         // Save player state across config change
         outState.putString(Config.VIDEO_PLAYBACK_TIME, mPlayer?.currentTimeMillis.toString())
         outState.putInt(Config.VIDEO_NUM, selectedPos)
         super.onSaveInstanceState(outState)
+    }
+
+    override fun onFullscreen(p0: Boolean) {
+        isFullscreen = p0
+        // For fullscreen -> portrait
+        if(!p0 && resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE)
+            requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+    }
+
+    override fun onAdStarted() {
+    }
+
+    override fun onLoading() {
+    }
+
+    override fun onVideoStarted() {
+    }
+
+    override fun onLoaded(p0: String?) {
+    }
+
+    override fun onError(p0: YouTubePlayer.ErrorReason?) {
+    }
+
+    override fun onBackPressed() {
+        if(isFullscreen && resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+            isFullscreen = false
+        } else {
+            super.onBackPressed()
+        }
     }
 }
