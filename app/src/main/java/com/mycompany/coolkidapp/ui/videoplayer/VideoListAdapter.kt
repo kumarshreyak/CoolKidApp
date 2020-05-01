@@ -34,10 +34,6 @@ class VideoListAdapter(private var videoUrlList: ArrayList<VideoItem>, private v
     override fun onBindViewHolder(holder: VideoItemHolder, position: Int) {
         holder.populateView(videoUrlList[position].title)
         holder.setIsRecyclable(false)
-//        if(numLoaded < itemCount)
-//            numLoaded ++;
-//        else
-//            return
         if(videoUrlList[position].isPlaying) {
             holder.binding.tvTitle.setTextColor(context.resources.getColor(R.color.colorPrimaryDark))
             holder.binding.tvTitle.typeface = Typeface.DEFAULT_BOLD
