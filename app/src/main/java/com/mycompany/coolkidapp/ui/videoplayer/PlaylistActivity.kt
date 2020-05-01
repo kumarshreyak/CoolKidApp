@@ -28,7 +28,7 @@ class PlaylistActivity : AppCompatActivity(),
     private lateinit var videoFragment: YouTubePlayerFragment
     private lateinit var fm: FragmentManager
     private var mPlayer: YouTubePlayer? = null
-    private var selectedPos = 0
+    private var selectedPos = -1
     private var isFullscreen = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -50,15 +50,15 @@ class PlaylistActivity : AppCompatActivity(),
     }
 
     private fun initData() {
-        videoList.add(VideoItem("uGrBHohIgQY", "Winning Google Kickstart Round A 2020 + Facecam"))
-        videoList.add(VideoItem("i_yLpCLMaKk", "Charlie Puth & Selena Gomez - We Don't Talk Anymore [Official Live Performance]"))
-        videoList.add(VideoItem("q6uuw0wwCgU", "Naruto AMV - Superhero"))
-        videoList.add(VideoItem("q6uuw0wwCgU", "Naruto AMV - Superhero"))
-        videoList.add(VideoItem("q6uuw0wwCgU", "Naruto AMV - Superhero"))
-        videoList.add(VideoItem("q6uuw0wwCgU", "Naruto AMV - Superhero"))
-        videoList.add(VideoItem("q6uuw0wwCgU", "Naruto AMV - Superhero"))
-        videoList.add(VideoItem("q6uuw0wwCgU", "Naruto AMV - Superhero"))
-        videoList.add(VideoItem("q6uuw0wwCgU", "Naruto AMV - Superhero"))
+        videoList.add(VideoItem("uGrBHohIgQY", "Winning Google Kickstart Round A 2020 + Facecam", false))
+        videoList.add(VideoItem("i_yLpCLMaKk", "Charlie Puth & Selena Gomez - We Don't Talk Anymore [Official Live Performance]", false))
+        videoList.add(VideoItem("q6uuw0wwCgU", "Naruto AMV - Superhero", false))
+        videoList.add(VideoItem("q6uuw0wwCgU", "Naruto AMV - Superhero", false))
+        videoList.add(VideoItem("q6uuw0wwCgU", "Naruto AMV - Superhero", false))
+        videoList.add(VideoItem("q6uuw0wwCgU", "Naruto AMV - Superhero", false))
+        videoList.add(VideoItem("q6uuw0wwCgU", "Naruto AMV - Superhero", false))
+        videoList.add(VideoItem("q6uuw0wwCgU", "Naruto AMV - Superhero", false))
+        videoList.add(VideoItem("q6uuw0wwCgU", "Naruto AMV - Superhero", false))
     }
 
     private fun initVideoFragment(savedInstanceState: Bundle?) {
@@ -70,6 +70,8 @@ class PlaylistActivity : AppCompatActivity(),
                     mPlayer = player
                     mPlayer?.setOnFullscreenListener(this@PlaylistActivity)
                     mPlayer?.setPlayerStateChangeListener(this@PlaylistActivity)
+                    if(selectedPos >= 0)
+                        videoList[selectedPos].isPlaying = false
                     if(savedInstanceState != null) {
                         selectedPos = savedInstanceState.getInt(Config.VIDEO_NUM)
                         mPlayer?.cueVideo(videoList[selectedPos].url,
@@ -80,6 +82,9 @@ class PlaylistActivity : AppCompatActivity(),
                         selectedPos = 0
                         mPlayer?.cueVideo(videoList[0].url)
                     }
+                    if(selectedPos >= 0)
+                        videoList[selectedPos].isPlaying = true
+                    binding.rvVideoList.adapter?.notifyDataSetChanged()
                 }
             }
             override fun onInitializationFailure(
@@ -107,7 +112,11 @@ class PlaylistActivity : AppCompatActivity(),
                     mPlayer = player
                     mPlayer?.setOnFullscreenListener(this@PlaylistActivity)
                     mPlayer?.setPlayerStateChangeListener(this@PlaylistActivity)
+                    if(selectedPos >= 0)
+                        videoList[selectedPos].isPlaying = false
                     selectedPos = pos
+                    videoList[selectedPos].isPlaying = true
+                    binding.rvVideoList.adapter?.notifyDataSetChanged()
                 }
             }
             override fun onInitializationFailure(
@@ -125,7 +134,10 @@ class PlaylistActivity : AppCompatActivity(),
         if(mPlayer != null) {
             if(selectedPos < videoList.size - 1) {
                 selectedPos ++
+                videoList[selectedPos - 1].isPlaying = false
                 mPlayer?.cueVideo(videoList[selectedPos].url)
+                videoList[selectedPos].isPlaying = true
+                binding.rvVideoList.adapter?.notifyDataSetChanged()
             } else {
                 if(selectedPos == videoList.size - 1) {
                     // Load new playlist

@@ -1,6 +1,7 @@
 package com.mycompany.coolkidapp.ui.videoplayer
 
 import android.content.Context
+import android.graphics.Typeface
 import android.os.Handler
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -32,10 +33,15 @@ class VideoListAdapter(private var videoUrlList: ArrayList<VideoItem>, private v
 
     override fun onBindViewHolder(holder: VideoItemHolder, position: Int) {
         holder.populateView(videoUrlList[position].title)
-        if(numLoaded < itemCount)
-            numLoaded ++;
-        else
-            return
+        holder.setIsRecyclable(false)
+//        if(numLoaded < itemCount)
+//            numLoaded ++;
+//        else
+//            return
+        if(videoUrlList[position].isPlaying) {
+            holder.binding.tvTitle.setTextColor(context.resources.getColor(R.color.colorPrimaryDark))
+            holder.binding.tvTitle.typeface = Typeface.DEFAULT_BOLD
+        }
         holder.binding.ytThumbnail.initialize(Config.YOUTUBE_API_KEY, object : YouTubeThumbnailView.OnInitializedListener {
             override fun onInitializationSuccess(thumbView: YouTubeThumbnailView?, loader: YouTubeThumbnailLoader?) {
                 loader?.setVideo(videoUrlList[position].url)
