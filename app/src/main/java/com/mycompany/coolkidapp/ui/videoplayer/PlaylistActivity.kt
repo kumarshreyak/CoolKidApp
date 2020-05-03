@@ -19,9 +19,8 @@ import com.mycompany.coolkidapp.databinding.ActivityPlaylistBinding
 import com.mycompany.coolkidapp.model.VideoItem
 import io.reactivex.Observable
 
-class PlaylistActivity : AppCompatActivity(),
-    VideoListAdapter.ItemClickInterface, YouTubePlayer.OnFullscreenListener,
-    YouTubePlayer.PlayerStateChangeListener {
+class PlaylistActivity : AppCompatActivity(), VideoListAdapter.ItemClickInterface,
+    YouTubePlayer.OnFullscreenListener, YouTubePlayer.PlayerStateChangeListener {
 
     private lateinit var binding: ActivityPlaylistBinding
     private var videoList = ArrayList<VideoItem>()
