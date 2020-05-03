@@ -32,6 +32,7 @@ data class Playlist(
 
 data class Response(
     val categoryCode: String,
+    val categoryName: String,
     val playlist: List<Playlist>
 )
 

@@ -61,7 +61,7 @@ class HomeActivity : AppCompatActivity(), ThumbnailListAdapter.ThumbItemClickInt
             for(thumbItem in categoryItem.playlist) {
                 thumbList.add(ThumbnailItem(thumbItem.contentDetails.videoId, thumbItem.snippet.title, categoryItem.categoryCode))
             }
-            categoryList.add(CategoryItem(categoryItem.categoryCode, categoryItem.categoryCode, thumbList))
+            categoryList.add(CategoryItem(categoryItem.categoryName, categoryItem.categoryCode, thumbList))
         }
         binding.rvCategoryList.adapter = CategoryListAdapter(categoryList, this, this)
         binding.rvCategoryList.adapter!!.notifyDataSetChanged()
