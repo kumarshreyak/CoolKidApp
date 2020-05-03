@@ -37,21 +37,7 @@ class HomeActivity : AppCompatActivity(), ThumbnailListAdapter.ThumbItemClickInt
         presenter.getCategories()
     }
 
-    private fun initData() {
-        thumbnailList = ArrayList()
-        categoryList = ArrayList()
-        thumbnailList.add(ThumbnailItem("uGrBHohIgQY", "Winning Google Kickstart", "coolCode"))
-        thumbnailList.add(ThumbnailItem("uGrBHohIgQY", "Winning Google Kickstart", "coolCode"))
-        thumbnailList.add(ThumbnailItem("uGrBHohIgQY", "Winning Google Kickstart", "coolCode"))
-        thumbnailList.add(ThumbnailItem("uGrBHohIgQY", "Winning Google Kickstart", "coolCode"))
-        categoryList.add(CategoryItem("Nursery Rhymes", "some code", thumbnailList))
-        categoryList.add(CategoryItem("Cool Rhymes", "some code", thumbnailList))
-        categoryList.add(CategoryItem("Not cool Rhymes", "some code", thumbnailList))
-        categoryList.add(CategoryItem("Its Working  Rhymes", "some code", thumbnailList))
-    }
-
     private fun initView() {
-
     }
 
     override fun onItemClick(categoryCode: String) {
