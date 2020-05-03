@@ -45,6 +45,8 @@ dependencies {
     implementation 'com.squareup.retrofit2:retrofit:2.7.2'
     implementation 'com.squareup.retrofit2:adapter-rxjava2:2.7.2'
     implementation 'com.squareup.retrofit2:converter-gson:2.7.2'
+    // OkHttp
+    implementation "com.squareup.okhttp3:okhttp:4.6.0"
     // Convertor for json to java
     implementation 'com.google.code.gson:gson:2.8.6'
     // Kotlin extension function for viewModel

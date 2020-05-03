@@ -10,18 +10,27 @@ import android.os.PersistableBundle
 import android.util.Log
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
+import com.google.android.material.snackbar.Snackbar
 import com.google.android.youtube.player.YouTubeInitializationResult
 import com.google.android.youtube.player.YouTubePlayer
 import com.google.android.youtube.player.YouTubePlayerFragment
 import com.mycompany.coolkidapp.Config
+import com.mycompany.coolkidapp.Config.Companion.BASE_URL
+import com.mycompany.coolkidapp.Config.Companion.EXTRA_CATEGORY_CODE
 import com.mycompany.coolkidapp.R
 import com.mycompany.coolkidapp.databinding.ActivityPlaylistBinding
+import com.mycompany.coolkidapp.model.CategoryItem
+import com.mycompany.coolkidapp.model.ThumbnailItem
 import com.mycompany.coolkidapp.model.VideoItem
+import com.mycompany.coolkidapp.network.CoolNetworkService
+import com.mycompany.coolkidapp.network.response.GetPlaylistResponse
+import com.mycompany.coolkidapp.ui.home.CategoryListAdapter
 import io.reactivex.Observable
+import java.util.*
+import kotlin.collections.ArrayList
 
-class PlaylistActivity : AppCompatActivity(),
-    VideoListAdapter.ItemClickInterface, YouTubePlayer.OnFullscreenListener,
-    YouTubePlayer.PlayerStateChangeListener {
+class PlaylistActivity : AppCompatActivity(), VideoListAdapter.ItemClickInterface,
+    YouTubePlayer.OnFullscreenListener, YouTubePlayer.PlayerStateChangeListener, PlaylistContract.View {
 
     private lateinit var binding: ActivityPlaylistBinding
     private var videoList = ArrayList<VideoItem>()
@@ -30,16 +39,35 @@ class PlaylistActivity : AppCompatActivity(),
     private var mPlayer: YouTubePlayer? = null
     private var selectedPos = -1
     private var isFullscreen = false
+    private lateinit var presenter: PlaylistContract.Presenter
+    private var savedInstanceState: Bundle? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = DataBindingUtil.setContentView(this,
-            R.layout.activity_playlist
-        )
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_playlist)
         fm = fragmentManager
-        initData()
-        initViews(savedInstanceState)
+        this.savedInstanceState = savedInstanceState
+        initPresenter()
+    }
 
+    private fun initPresenter() {
+        presenter = PlaylistPresenter(this, CoolNetworkService.getCoolNetworkService(BASE_URL))
+
+        presenter.getPlaylist(Collections.singletonList(intent.getStringExtra(EXTRA_CATEGORY_CODE)))
+    }
+
+    override fun getPlaylistSuccess(response: GetPlaylistResponse) {
+        videoList = ArrayList()
+        for(item in response.responses) {
+            for(videoItem in item.playlist) {
+                videoList.add(VideoItem(videoItem.contentDetails.videoId, videoItem.snippet.title, false))
+            }
+        }
+        initViews(savedInstanceState)
+    }
+
+    override fun apiFailure(failureMessage: String) {
+        Snackbar.make(binding.root, failureMessage, Snackbar.LENGTH_SHORT).show()
     }
 
     private fun initViews(savedInstanceState: Bundle?) {

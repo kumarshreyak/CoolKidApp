@@ -9,5 +9,12 @@ class Config {
 
         // Intent Extras
         val EXTRA_CATEGORY_CODE = "EXTRA_CATEGORY_CODE"
+
+        // Network Extra
+        val BASE_URL = "http://192.168.0.108:8001/coolKids/"
+
+        // API Constants
+        const val GET_CATEGORIES = "getCategories"
+        const val GET_PLAYLIST = "getPlaylist"
     }
 }
