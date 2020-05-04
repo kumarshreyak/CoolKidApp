@@ -4,7 +4,7 @@
     <androidx.cardview.widget.CardView
         android:id="@+id/card"
         app:cardCornerRadius="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         app:cardElevation="1dp"
@@ -16,17 +16,29 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <com.google.android.youtube.player.YouTubeThumbnailView
+            <ImageView
                 android:id="@+id/yt_thumbnail"
+                android:scaleType="fitCenter"
+                android:adjustViewBounds="true"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintVertical_bias="0"
-                android:backgroundTint="@color/black_500"
                 android:layout_margin="16dp"
                 android:layout_width="0dp"
                 android:layout_height="120dp"/>
+
+<!--            <com.google.android.youtube.player.YouTubeThumbnailView-->
+<!--                android:id="@+id/yt_thumbnail"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                app:layout_constraintTop_toTopOf="parent"-->
+<!--                app:layout_constraintEnd_toEndOf="parent"-->
+<!--                app:layout_constraintBottom_toBottomOf="parent"-->
+<!--                app:layout_constraintVertical_bias="0"-->
+<!--                android:layout_margin="16dp"-->
+<!--                android:layout_width="0dp"-->
+<!--                android:layout_height="120dp"/>-->
             <TextView
                 android:id="@+id/tv_title"
                 style="@style/TextAppearance.MaterialComponents.Subtitle1"
