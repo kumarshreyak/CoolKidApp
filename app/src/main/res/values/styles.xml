@@ -10,29 +10,29 @@
     </style>
 
     <!--    Material Text styles-->
-    <style name="Arvo.Headline1" parent="TextAppearance.MaterialComponents.Headline1">
-        <item name="fontFamily">@font/arvo_regular</item>
-        <item name="android:fontFamily">@font/arvo_regular</item>
+    <style name="Rubik.Headline1" parent="TextAppearance.MaterialComponents.Headline1">
+        <item name="fontFamily">@font/rubik_medium</item>
+        <item name="android:fontFamily">@font/rubik_medium</item>
     </style>
-    <style name="Arvo.Headline2" parent="TextAppearance.MaterialComponents.Headline2">
-        <item name="fontFamily">@font/arvo_regular</item>
-        <item name="android:fontFamily">@font/arvo_regular</item>
+    <style name="Rubik.Headline2" parent="TextAppearance.MaterialComponents.Headline2">
+        <item name="fontFamily">@font/rubik_medium</item>
+        <item name="android:fontFamily">@font/rubik_medium</item>
     </style>
-    <style name="Arvo.Headline3" parent="TextAppearance.MaterialComponents.Headline3">
-        <item name="fontFamily">@font/arvo_regular</item>
-        <item name="android:fontFamily">@font/arvo_regular</item>
+    <style name="Rubik.Headline3" parent="TextAppearance.MaterialComponents.Headline3">
+        <item name="fontFamily">@font/rubik_medium</item>
+        <item name="android:fontFamily">@font/rubik_medium</item>
     </style>
-    <style name="Arvo.Headline4" parent="TextAppearance.MaterialComponents.Headline4">
-        <item name="fontFamily">@font/arvo_regular</item>
-        <item name="android:fontFamily">@font/arvo_regular</item>
+    <style name="Rubik.Headline4" parent="TextAppearance.MaterialComponents.Headline4">
+        <item name="fontFamily">@font/rubik_medium</item>
+        <item name="android:fontFamily">@font/rubik_medium</item>
     </style>
-    <style name="Arvo.Headline5" parent="TextAppearance.MaterialComponents.Headline5">
-        <item name="fontFamily">@font/arvo_regular</item>
-        <item name="android:fontFamily">@font/arvo_regular</item>
+    <style name="Rubik.Headline5" parent="TextAppearance.MaterialComponents.Headline5">
+        <item name="fontFamily">@font/rubik_medium</item>
+        <item name="android:fontFamily">@font/rubik_medium</item>
     </style>
-    <style name="Arvo.Headline6" parent="TextAppearance.MaterialComponents.Headline6">
-        <item name="fontFamily">@font/arvo_regular</item>
-        <item name="android:fontFamily">@font/arvo_regular</item>
+    <style name="Rubik.Headline6" parent="TextAppearance.MaterialComponents.Headline6">
+    <item name="fontFamily">@font/rubik_medium</item>
+    <item name="android:fontFamily">@font/rubik_medium</item>
     </style>
 
 </resources>
