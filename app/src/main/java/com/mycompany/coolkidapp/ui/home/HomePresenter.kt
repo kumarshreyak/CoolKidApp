@@ -34,10 +34,10 @@ class HomePresenter(var view : HomeContract.View, var apiService: CoolNetworkInt
         val url = responseBody.raw().request.url.toString()
         when {
             url.endsWith(GET_CATEGORIES) -> {
-                view.apiFailure(responseBody.errorBody().toString())
+                view.apiFailure(responseBody.message())
             }
             url.endsWith(GET_PLAYLIST) -> {
-                view.apiFailure(responseBody.errorBody().toString())
+                view.apiFailure(responseBody.message())
             }
         }
     }
