@@ -95,13 +95,13 @@ class PlaylistActivity : AppCompatActivity(), VideoListAdapter.ItemClickInterfac
                         videoList[selectedPos].isPlaying = false
                     if(savedInstanceState != null) {
                         selectedPos = savedInstanceState.getInt(Config.VIDEO_NUM)
-                        mPlayer?.cueVideo(videoList[selectedPos].url,
+                        mPlayer?.loadVideo(videoList[selectedPos].url,
                             savedInstanceState.getString(Config.VIDEO_PLAYBACK_TIME)?.toInt()!!)
                         if(resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE)
                             mPlayer?.setFullscreen(true)
                     } else {
                         selectedPos = 0
-                        mPlayer?.cueVideo(videoList[0].url)
+                        mPlayer?.loadVideo(videoList[0].url)
                     }
                     if(selectedPos >= 0)
                         videoList[selectedPos].isPlaying = true
@@ -129,7 +129,7 @@ class PlaylistActivity : AppCompatActivity(), VideoListAdapter.ItemClickInterfac
             override fun onInitializationSuccess(provider: YouTubePlayer.Provider?,
                                                  player: YouTubePlayer?, wasRestored: Boolean) {
                 if (!wasRestored) {
-                    player?.cueVideo(url) // Plays https://www.youtube.com/watch?v=q6uuw0wwCgU
+                    player?.loadVideo(url) // Plays https://www.youtube.com/watch?v=q6uuw0wwCgU
                     mPlayer = player
                     mPlayer?.setOnFullscreenListener(this@PlaylistActivity)
                     mPlayer?.setPlayerStateChangeListener(this@PlaylistActivity)
@@ -156,7 +156,7 @@ class PlaylistActivity : AppCompatActivity(), VideoListAdapter.ItemClickInterfac
             if(selectedPos < videoList.size - 1) {
                 selectedPos ++
                 videoList[selectedPos - 1].isPlaying = false
-                mPlayer?.cueVideo(videoList[selectedPos].url)
+                mPlayer?.loadVideo(videoList[selectedPos].url)
                 videoList[selectedPos].isPlaying = true
                 binding.rvVideoList.adapter?.notifyDataSetChanged()
             } else {
