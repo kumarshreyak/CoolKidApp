@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.mycompany.coolkidapp">
+    package="com.kidx.kidvoo">
 
     <uses-permission android:name="android.permission.INTERNET" />
 
@@ -14,16 +14,16 @@
         android:theme="@style/AppTheme">
         <activity
             android:screenOrientation="portrait"
-            android:name=".ui.videoplayer.PlaylistActivity">
+            android:name="com.kidx.kidvoo.ui.videoplayer.PlaylistActivity">
         </activity>
-        <activity android:name=".ui.home.HomeActivity">
+        <activity android:name="com.kidx.kidvoo.ui.home.HomeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".SampleActivity"></activity>
+        <activity android:name="com.kidx.kidvoo.SampleActivity"></activity>
     </application>
 
 </manifest>
