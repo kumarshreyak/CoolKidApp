@@ -53,7 +53,7 @@ class PlaylistActivity : AppCompatActivity(), VideoListAdapter.ItemClickInterfac
         videoList = ArrayList()
         for(item in response.responses) {
             for(videoItem in item.playlist) {
-                videoList.add(VideoItem(videoItem.contentDetails.videoId, videoItem.snippet.title, false))
+                videoList.add(VideoItem(videoItem.snippet.thumbnails.medium.url, videoItem.snippet.title, false))
             }
         }
         initViews(savedInstanceState)
@@ -68,18 +68,6 @@ class PlaylistActivity : AppCompatActivity(), VideoListAdapter.ItemClickInterfac
             initRecyclerView()
         initVideoFragment(savedInstanceState)
         binding.btnFullscreen.setOnClickListener { mPlayer?.setFullscreen(true) }
-    }
-
-    private fun initData() {
-        videoList.add(VideoItem("uGrBHohIgQY", "Winning Google Kickstart Round A 2020 + Facecam", false))
-        videoList.add(VideoItem("i_yLpCLMaKk", "Charlie Puth & Selena Gomez - We Don't Talk Anymore [Official Live Performance]", false))
-        videoList.add(VideoItem("q6uuw0wwCgU", "Naruto AMV - Superhero", false))
-        videoList.add(VideoItem("q6uuw0wwCgU", "Naruto AMV - Superhero", false))
-        videoList.add(VideoItem("q6uuw0wwCgU", "Naruto AMV - Superhero", false))
-        videoList.add(VideoItem("q6uuw0wwCgU", "Naruto AMV - Superhero", false))
-        videoList.add(VideoItem("q6uuw0wwCgU", "Naruto AMV - Superhero", false))
-        videoList.add(VideoItem("q6uuw0wwCgU", "Naruto AMV - Superhero", false))
-        videoList.add(VideoItem("q6uuw0wwCgU", "Naruto AMV - Superhero", false))
     }
 
     private fun initVideoFragment(savedInstanceState: Bundle?) {

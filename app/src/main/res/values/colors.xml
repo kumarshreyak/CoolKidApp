@@ -6,5 +6,6 @@
     <color name="color_primary_500">#803F51B5</color>
     <color name="black">#191414</color>
     <color name="black_500">#80191414</color>
+    <color name="black_20">#05191414</color>
     <color name="white">#ffffff</color>
 </resources>

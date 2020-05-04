@@ -13,6 +13,7 @@ import com.kidx.kidvoo.Config
 import com.kidx.kidvoo.R
 import com.kidx.kidvoo.databinding.VideoListItemBinding
 import com.kidx.kidvoo.model.VideoItem
+import com.squareup.picasso.Picasso
 
 class VideoListAdapter(private var videoUrlList: ArrayList<VideoItem>, private var context: Context,
                        private var itemClickInterface: ItemClickInterface
@@ -37,27 +38,33 @@ class VideoListAdapter(private var videoUrlList: ArrayList<VideoItem>, private v
             holder.binding.tvTitle.setTextColor(context.resources.getColor(R.color.colorPrimaryDark))
             holder.binding.tvTitle.typeface = Typeface.DEFAULT_BOLD
         }
-        holder.binding.ytThumbnail.initialize(Config.YOUTUBE_API_KEY, object : YouTubeThumbnailView.OnInitializedListener {
-            override fun onInitializationSuccess(thumbView: YouTubeThumbnailView?, loader: YouTubeThumbnailLoader?) {
-                loader?.setVideo(videoUrlList[position].url)
-                loader?.setOnThumbnailLoadedListener(object : YouTubeThumbnailLoader.OnThumbnailLoadedListener {
-                    override fun onThumbnailLoaded(p0: YouTubeThumbnailView?, p1: String?) {
-                        loader.release()
-                    }
 
-                    override fun onThumbnailError(
-                        p0: YouTubeThumbnailView?,
-                        p1: YouTubeThumbnailLoader.ErrorReason?
-                    ) { }
-                })
-            }
+        Picasso.get()
+            .load(videoUrlList[position].url)
+            .placeholder(R.color.white)
+            .into(holder.binding.ytThumbnail)
 
-            override fun onInitializationFailure(
-                p0: YouTubeThumbnailView?,
-                p1: YouTubeInitializationResult?
-            ) {
-            }
-        })
+//        holder.binding.ytThumbnail.initialize(Config.YOUTUBE_API_KEY, object : YouTubeThumbnailView.OnInitializedListener {
+//            override fun onInitializationSuccess(thumbView: YouTubeThumbnailView?, loader: YouTubeThumbnailLoader?) {
+//                loader?.setVideo(videoUrlList[position].url)
+//                loader?.setOnThumbnailLoadedListener(object : YouTubeThumbnailLoader.OnThumbnailLoadedListener {
+//                    override fun onThumbnailLoaded(p0: YouTubeThumbnailView?, p1: String?) {
+//                        loader.release()
+//                    }
+//
+//                    override fun onThumbnailError(
+//                        p0: YouTubeThumbnailView?,
+//                        p1: YouTubeThumbnailLoader.ErrorReason?
+//                    ) { }
+//                })
+//            }
+//
+//            override fun onInitializationFailure(
+//                p0: YouTubeThumbnailView?,
+//                p1: YouTubeInitializationResult?
+//            ) {
+//            }
+//        })
 
         holder.binding.rootLayout.setOnClickListener { itemClickInterface.onItemClick(position, videoUrlList[position].url) }
     }
