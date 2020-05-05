@@ -11,7 +11,7 @@ class Config {
         val EXTRA_CATEGORY_CODE = "EXTRA_CATEGORY_CODE"
 
         // Network Extra
-        val BASE_URL = "http://192.168.0.108:8001/coolKids/"
+        val BASE_URL = "https://kidvoo-server.herokuapp.com/coolKids/"
 
         // API Constants
         const val GET_CATEGORIES = "getCategories"
