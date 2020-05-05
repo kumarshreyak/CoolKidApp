@@ -5,6 +5,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".ui.home.HomeActivity">
+
         <View
             android:background="@drawable/bg_toolbar"
             app:layout_constraintStart_toStartOf="parent"
@@ -36,7 +37,6 @@
             tools:listitem="@layout/category_list_item"
             android:layout_width="match_parent"
             android:layout_height="0dp"/>
-
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
