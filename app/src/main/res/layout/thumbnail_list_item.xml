@@ -14,15 +14,6 @@
             app:layout_constraintHorizontal_bias="0"
             android:layout_width="125dp"
             android:layout_height="80dp"/>
-
-<!--        <com.google.android.youtube.player.YouTubeThumbnailView-->
-<!--            android:id="@+id/yt_thumbnail"-->
-<!--            app:layout_constraintStart_toStartOf="parent"-->
-<!--            app:layout_constraintTop_toTopOf="parent"-->
-<!--            app:layout_constraintEnd_toEndOf="parent"-->
-<!--            app:layout_constraintHorizontal_bias="0"-->
-<!--            android:layout_width="125dp"-->
-<!--            android:layout_height="80dp"/>-->
         <TextView
             android:id="@+id/tv_video_title"
             app:layout_constraintStart_toStartOf="@id/yt_thumbnail"
