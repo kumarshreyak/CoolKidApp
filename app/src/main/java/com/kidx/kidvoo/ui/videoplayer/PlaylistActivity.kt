@@ -5,6 +5,7 @@ import android.content.pm.ActivityInfo
 import android.content.res.Configuration
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import com.google.android.material.snackbar.Snackbar
@@ -46,6 +47,7 @@ class PlaylistActivity : AppCompatActivity(), VideoListAdapter.ItemClickInterfac
     private fun initPresenter() {
         presenter = PlaylistPresenter(this, CoolNetworkService.getCoolNetworkService(BASE_URL))
 
+        showProgress()
         presenter.getPlaylist(Collections.singletonList(intent.getStringExtra(EXTRA_CATEGORY_CODE)))
     }
 
@@ -56,12 +58,24 @@ class PlaylistActivity : AppCompatActivity(), VideoListAdapter.ItemClickInterfac
                 videoList.add(VideoItem(videoItem.thumbnailUrl, videoItem.videoId, videoItem.title, false))
             }
         }
+        hideProgress()
         initViews(savedInstanceState)
     }
 
     override fun apiFailure(failureMessage: String) {
         Snackbar.make(binding.root, failureMessage, Snackbar.LENGTH_SHORT).show()
     }
+
+    fun showProgress() {
+        binding.groupPlaylist.visibility = View.GONE
+        binding.groupLoading.visibility = View.VISIBLE
+    }
+
+    fun hideProgress() {
+        binding.groupPlaylist.visibility = View.VISIBLE
+        binding.groupLoading.visibility = View.GONE
+    }
+
 
     private fun initViews(savedInstanceState: Bundle?) {
         if(resources.configuration.orientation != Configuration.ORIENTATION_LANDSCAPE)

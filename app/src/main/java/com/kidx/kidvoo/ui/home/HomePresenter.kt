@@ -52,7 +52,6 @@ class HomePresenter(var view : HomeContract.View, var apiService: CoolNetworkInt
     }
 
     override fun getCategories() {
-        view.showProgress()
         apiService.getCategories()
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())

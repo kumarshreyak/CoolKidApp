@@ -7,6 +7,7 @@ import android.view.View.GONE
 import android.view.View.VISIBLE
 import androidx.databinding.DataBindingUtil
 import com.google.android.material.snackbar.Snackbar
+import com.kidx.kidvoo.BuildConfig
 import com.kidx.kidvoo.Config.Companion.BASE_URL
 import com.kidx.kidvoo.Config.Companion.EXTRA_CATEGORY_CODE
 import com.kidx.kidvoo.R
@@ -28,24 +29,30 @@ class HomeActivity : AppCompatActivity(), ThumbnailListAdapter.ThumbItemClickInt
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_home)
+        initSplash()
         initPresenter()
         initView()
+    }
+
+    private fun initSplash() {
+        binding.tvVersion.text = BuildConfig.VERSION_NAME
     }
 
     private fun initPresenter() {
         presenter = HomePresenter(this, CoolNetworkService.getCoolNetworkService(BASE_URL))
 
+        showProgress()
         presenter.getCategories()
     }
 
     override fun showProgress() {
-        binding.rvCategoryList.visibility = GONE
-        binding.progressBar.visibility = VISIBLE
+        binding.groupHome.visibility = GONE
+        binding.groupSplash.visibility = VISIBLE
     }
 
     override fun hideProgress() {
-        binding.rvCategoryList.visibility = VISIBLE
-        binding.progressBar.visibility = GONE
+        binding.groupHome.visibility = VISIBLE
+        binding.groupSplash.visibility = GONE
     }
 
     private fun initView() {
