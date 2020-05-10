@@ -7,6 +7,30 @@
         android:background="@color/black_20"
         tools:context=".ui.videoplayer.PlaylistActivity">
 
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/group_playlist"
+            app:constraint_referenced_ids="rv_video_list,btn_fullscreen,video_frame"
+            android:visibility="visible"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/group_loading"
+            app:constraint_referenced_ids="progress_bar"
+            tools:visibility="gone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <androidx.core.widget.ContentLoadingProgressBar
+            android:id="@+id/progress_bar"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            style="@style/Widget.AppCompat.ProgressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
         <FrameLayout
             android:id="@+id/video_frame"
             app:layout_constraintStart_toStartOf="parent"

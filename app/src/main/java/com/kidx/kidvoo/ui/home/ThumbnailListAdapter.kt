@@ -31,36 +31,14 @@ class ThumbnailListAdapter(private var thumbnailList: ArrayList<ThumbnailItem>,
 
     override fun onBindViewHolder(holder: ThumbItemHolder, position: Int) {
         holder.populateView(thumbnailList[position].title)
-        holder.setIsRecyclable(false)
 
         Picasso.get()
             .load(thumbnailList[position].url)
             .placeholder(R.color.white)
             .into(holder.binding.ytThumbnail)
 
-//        holder.binding.ytThumbnail.initialize(Config.YOUTUBE_API_KEY, object : YouTubeThumbnailView.OnInitializedListener {
-//            override fun onInitializationSuccess(thumbView: YouTubeThumbnailView?, loader: YouTubeThumbnailLoader?) {
-//                loader?.setVideo(thumbnailList[position].url)
-//                loader?.setOnThumbnailLoadedListener(object : YouTubeThumbnailLoader.OnThumbnailLoadedListener {
-//                    override fun onThumbnailLoaded(p0: YouTubeThumbnailView?, p1: String?) {
-//                        loader.release()
-//                    }
-//
-//                    override fun onThumbnailError(
-//                        p0: YouTubeThumbnailView?,
-//                        p1: YouTubeThumbnailLoader.ErrorReason?
-//                    ) { }
-//                })
-//            }
-//
-//            override fun onInitializationFailure(
-//                p0: YouTubeThumbnailView?,
-//                p1: YouTubeInitializationResult?
-//            ) {
-//            }
-//        })
         holder.binding.rootLayout.setOnClickListener {
-            thumbItemClickInterface.onItemClick(thumbnailList[position].categoryCode)
+            thumbItemClickInterface.onItemClick(thumbnailList[position].categoryCode, position)
         }
     }
 
@@ -71,7 +49,7 @@ class ThumbnailListAdapter(private var thumbnailList: ArrayList<ThumbnailItem>,
     }
 
     interface ThumbItemClickInterface {
-        fun onItemClick(categoryCode: String)
+        fun onItemClick(categoryCode: String, pos: Int)
     }
 
 }

@@ -9,6 +9,7 @@ class Config {
 
         // Intent Extras
         val EXTRA_CATEGORY_CODE = "EXTRA_CATEGORY_CODE"
+        val EXTRA_LIST_POS = "EXTRA_LIST_POS"
 
         // Network Extra
         val BASE_URL = "https://kidvoo-server.herokuapp.com/coolKids/"

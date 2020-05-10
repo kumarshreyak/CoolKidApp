@@ -30,6 +30,7 @@ class HomePresenter(var view : HomeContract.View, var apiService: CoolNetworkInt
     }
 
     override fun onFailureResponse(responseBody: Response<ResponseBody>) {
+        view.hideProgress()
         val url = responseBody.raw().request.url.toString()
         when {
             url.endsWith(GET_CATEGORIES) -> {

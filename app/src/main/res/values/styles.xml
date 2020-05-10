@@ -11,10 +11,16 @@
 
 
     <!--    Material Text styles-->
+    <style name="Rubik.Headline3.Splash" parent="TextAppearance.MaterialComponents.Headline3">
+        <item name="fontFamily">@font/rubik_bold</item>
+        <item name="android:fontFamily">@font/rubik_bold</item>
+    </style>
     <style name="Rubik.Headline4.Home" parent="TextAppearance.MaterialComponents.Headline4">
         <item name="fontFamily">@font/rubik_bold</item>
         <item name="android:fontFamily">@font/rubik_bold</item>
     </style>
+
+
     <style name="Rubik.Headline1" parent="TextAppearance.MaterialComponents.Headline1">
         <item name="fontFamily">@font/rubik_medium</item>
         <item name="android:fontFamily">@font/rubik_medium</item>

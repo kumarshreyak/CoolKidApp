@@ -10,6 +10,10 @@ class HomeContract {
         fun getPlaylistSuccess(response: GetPlaylistResponse)
 
         fun apiFailure(failureMessage : String)
+
+        fun showProgress()
+
+        fun hideProgress()
     }
 
     interface Presenter {

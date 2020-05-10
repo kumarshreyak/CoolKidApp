@@ -3,10 +3,14 @@ package com.kidx.kidvoo.ui.home
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import androidx.databinding.DataBindingUtil
 import com.google.android.material.snackbar.Snackbar
+import com.kidx.kidvoo.BuildConfig
 import com.kidx.kidvoo.Config.Companion.BASE_URL
 import com.kidx.kidvoo.Config.Companion.EXTRA_CATEGORY_CODE
+import com.kidx.kidvoo.Config.Companion.EXTRA_LIST_POS
 import com.kidx.kidvoo.R
 import com.kidx.kidvoo.databinding.ActivityHomeBinding
 import com.kidx.kidvoo.model.CategoryItem
@@ -26,22 +30,39 @@ class HomeActivity : AppCompatActivity(), ThumbnailListAdapter.ThumbItemClickInt
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_home)
+        initSplash()
         initPresenter()
         initView()
+    }
+
+    private fun initSplash() {
+        binding.tvVersion.text = BuildConfig.VERSION_NAME
     }
 
     private fun initPresenter() {
         presenter = HomePresenter(this, CoolNetworkService.getCoolNetworkService(BASE_URL))
 
+        showProgress()
         presenter.getCategories()
+    }
+
+    override fun showProgress() {
+        binding.groupHome.visibility = GONE
+        binding.groupSplash.visibility = VISIBLE
+    }
+
+    override fun hideProgress() {
+        binding.groupHome.visibility = VISIBLE
+        binding.groupSplash.visibility = GONE
     }
 
     private fun initView() {
     }
 
-    override fun onItemClick(categoryCode: String) {
+    override fun onItemClick(categoryCode: String, pos: Int) {
         val intent = Intent(this, PlaylistActivity::class.java)
         intent.putExtra(EXTRA_CATEGORY_CODE, categoryCode)
+        intent.putExtra(EXTRA_LIST_POS, pos)
         startActivity(intent)
     }
 
@@ -58,10 +79,11 @@ class HomeActivity : AppCompatActivity(), ThumbnailListAdapter.ThumbItemClickInt
         for(categoryItem in response.responses) {
             val thumbList = ArrayList<ThumbnailItem>()
             for(thumbItem in categoryItem.playlist) {
-                thumbList.add(ThumbnailItem(thumbItem.snippet.thumbnails.medium.url, thumbItem.snippet.title, categoryItem.categoryCode))
+                thumbList.add(ThumbnailItem(thumbItem.thumbnailUrl, thumbItem.title, categoryItem.categoryCode))
             }
             categoryList.add(CategoryItem(categoryItem.categoryName, categoryItem.categoryCode, thumbList))
         }
+        hideProgress()
         binding.rvCategoryList.adapter = CategoryListAdapter(categoryList, this, this)
         binding.rvCategoryList.adapter!!.notifyDataSetChanged()
     }
