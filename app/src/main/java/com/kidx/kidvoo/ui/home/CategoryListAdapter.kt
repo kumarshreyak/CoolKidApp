@@ -26,7 +26,6 @@ class CategoryListAdapter(private var categoryList: ArrayList<CategoryItem>, pri
 
     override fun onBindViewHolder(holder: CategoryItemHolder, position: Int) {
         holder.populateView(categoryList[position].categoryTitle)
-        holder.setIsRecyclable(false)
         holder.binding.rvThumbnailList.adapter =
             ThumbnailListAdapter(categoryList[position].thumbnailList, context, clickInterface)
     }

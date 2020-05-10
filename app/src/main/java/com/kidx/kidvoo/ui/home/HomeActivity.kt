@@ -3,6 +3,8 @@ package com.kidx.kidvoo.ui.home
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import androidx.databinding.DataBindingUtil
 import com.google.android.material.snackbar.Snackbar
 import com.kidx.kidvoo.Config.Companion.BASE_URL
@@ -36,6 +38,16 @@ class HomeActivity : AppCompatActivity(), ThumbnailListAdapter.ThumbItemClickInt
         presenter.getCategories()
     }
 
+    override fun showProgress() {
+        binding.rvCategoryList.visibility = GONE
+        binding.progressBar.visibility = VISIBLE
+    }
+
+    override fun hideProgress() {
+        binding.rvCategoryList.visibility = VISIBLE
+        binding.progressBar.visibility = GONE
+    }
+
     private fun initView() {
     }
 
@@ -62,6 +74,7 @@ class HomeActivity : AppCompatActivity(), ThumbnailListAdapter.ThumbItemClickInt
             }
             categoryList.add(CategoryItem(categoryItem.categoryName, categoryItem.categoryCode, thumbList))
         }
+        hideProgress()
         binding.rvCategoryList.adapter = CategoryListAdapter(categoryList, this, this)
         binding.rvCategoryList.adapter!!.notifyDataSetChanged()
     }

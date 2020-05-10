@@ -30,6 +30,7 @@ class HomePresenter(var view : HomeContract.View, var apiService: CoolNetworkInt
     }
 
     override fun onFailureResponse(responseBody: Response<ResponseBody>) {
+        view.hideProgress()
         val url = responseBody.raw().request.url.toString()
         when {
             url.endsWith(GET_CATEGORIES) -> {
@@ -51,6 +52,7 @@ class HomePresenter(var view : HomeContract.View, var apiService: CoolNetworkInt
     }
 
     override fun getCategories() {
+        view.showProgress()
         apiService.getCategories()
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
