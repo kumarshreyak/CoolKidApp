@@ -17,8 +17,19 @@ android {
 
         setProperty("archivesBaseName", "kidvoo_$versionName")
     }
+
+    signingConfigs {
+        release {
+            storeFile file("keystore/keystore")
+            storePassword "Coolkids69"
+            keyAlias "key0"
+            keyPassword "Coolkids69"
+        }
+    }
+
     buildTypes {
         release {
+            signingConfig signingConfigs.release
             minifyEnabled false
         }
     }

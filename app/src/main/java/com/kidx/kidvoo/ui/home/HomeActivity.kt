@@ -10,6 +10,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.kidx.kidvoo.BuildConfig
 import com.kidx.kidvoo.Config.Companion.BASE_URL
 import com.kidx.kidvoo.Config.Companion.EXTRA_CATEGORY_CODE
+import com.kidx.kidvoo.Config.Companion.EXTRA_LIST_POS
 import com.kidx.kidvoo.R
 import com.kidx.kidvoo.databinding.ActivityHomeBinding
 import com.kidx.kidvoo.model.CategoryItem
@@ -58,9 +59,10 @@ class HomeActivity : AppCompatActivity(), ThumbnailListAdapter.ThumbItemClickInt
     private fun initView() {
     }
 
-    override fun onItemClick(categoryCode: String) {
+    override fun onItemClick(categoryCode: String, pos: Int) {
         val intent = Intent(this, PlaylistActivity::class.java)
         intent.putExtra(EXTRA_CATEGORY_CODE, categoryCode)
+        intent.putExtra(EXTRA_LIST_POS, pos)
         startActivity(intent)
     }
 

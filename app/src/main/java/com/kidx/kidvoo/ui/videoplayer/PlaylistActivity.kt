@@ -15,6 +15,7 @@ import com.google.android.youtube.player.YouTubePlayerFragment
 import com.kidx.kidvoo.Config
 import com.kidx.kidvoo.Config.Companion.BASE_URL
 import com.kidx.kidvoo.Config.Companion.EXTRA_CATEGORY_CODE
+import com.kidx.kidvoo.Config.Companion.EXTRA_LIST_POS
 import com.kidx.kidvoo.R
 import com.kidx.kidvoo.databinding.ActivityPlaylistBinding
 import com.kidx.kidvoo.model.VideoItem
@@ -102,12 +103,13 @@ class PlaylistActivity : AppCompatActivity(), VideoListAdapter.ItemClickInterfac
                         if(resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE)
                             mPlayer?.setFullscreen(true)
                     } else {
-                        selectedPos = 0
-                        mPlayer?.loadVideo(videoList[0].url)
+                        selectedPos = intent.getIntExtra(EXTRA_LIST_POS, 0)
+                        mPlayer?.loadVideo(videoList[selectedPos].url)
                     }
                     if(selectedPos >= 0)
                         videoList[selectedPos].isPlaying = true
                     binding.rvVideoList.adapter?.notifyDataSetChanged()
+                    binding.rvVideoList.scrollToPosition(selectedPos)
                 }
             }
             override fun onInitializationFailure(
@@ -140,6 +142,7 @@ class PlaylistActivity : AppCompatActivity(), VideoListAdapter.ItemClickInterfac
                     selectedPos = pos
                     videoList[selectedPos].isPlaying = true
                     binding.rvVideoList.adapter?.notifyDataSetChanged()
+                    binding.rvVideoList.scrollToPosition(selectedPos)
                 }
             }
             override fun onInitializationFailure(
@@ -161,6 +164,7 @@ class PlaylistActivity : AppCompatActivity(), VideoListAdapter.ItemClickInterfac
                 mPlayer?.loadVideo(videoList[selectedPos].url)
                 videoList[selectedPos].isPlaying = true
                 binding.rvVideoList.adapter?.notifyDataSetChanged()
+                binding.rvVideoList.scrollToPosition(selectedPos)
             } else {
                 if(selectedPos == videoList.size - 1) {
                     // Load new playlist

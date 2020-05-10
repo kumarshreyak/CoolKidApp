@@ -38,7 +38,7 @@ class ThumbnailListAdapter(private var thumbnailList: ArrayList<ThumbnailItem>,
             .into(holder.binding.ytThumbnail)
 
         holder.binding.rootLayout.setOnClickListener {
-            thumbItemClickInterface.onItemClick(thumbnailList[position].categoryCode)
+            thumbItemClickInterface.onItemClick(thumbnailList[position].categoryCode, position)
         }
     }
 
@@ -49,7 +49,7 @@ class ThumbnailListAdapter(private var thumbnailList: ArrayList<ThumbnailItem>,
     }
 
     interface ThumbItemClickInterface {
-        fun onItemClick(categoryCode: String)
+        fun onItemClick(categoryCode: String, pos: Int)
     }
 
 }
