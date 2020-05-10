@@ -53,7 +53,7 @@ class PlaylistActivity : AppCompatActivity(), VideoListAdapter.ItemClickInterfac
         videoList = ArrayList()
         for(item in response.responses) {
             for(videoItem in item.playlist) {
-                videoList.add(VideoItem(videoItem.snippet.thumbnails.medium.url, videoItem.snippet.title, false))
+                videoList.add(VideoItem(videoItem.thumbnailUrl, videoItem.videoId, videoItem.title, false))
             }
         }
         initViews(savedInstanceState)

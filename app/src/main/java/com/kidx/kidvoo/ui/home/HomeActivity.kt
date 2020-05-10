@@ -58,7 +58,7 @@ class HomeActivity : AppCompatActivity(), ThumbnailListAdapter.ThumbItemClickInt
         for(categoryItem in response.responses) {
             val thumbList = ArrayList<ThumbnailItem>()
             for(thumbItem in categoryItem.playlist) {
-                thumbList.add(ThumbnailItem(thumbItem.snippet.thumbnails.medium.url, thumbItem.snippet.title, categoryItem.categoryCode))
+                thumbList.add(ThumbnailItem(thumbItem.thumbnailUrl, thumbItem.title, categoryItem.categoryCode))
             }
             categoryList.add(CategoryItem(categoryItem.categoryName, categoryItem.categoryCode, thumbList))
         }
